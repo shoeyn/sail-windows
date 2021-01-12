@@ -27,8 +27,6 @@ services:
     #         - '/dev/shm:/dev/shm'
     #     networks:
     #         - sail
-    #     depends_on:
-    #         - laravel.test
     mysql:
         image: 'mysql:8.0'
         ports:
@@ -43,6 +41,8 @@ services:
             - 'sailmysql:/var/lib/mysql'
         networks:
             - sail
+        healthcheck:
+          test: ["CMD", "mysqladmin", "ping"]
     redis:
         image: 'redis:alpine'
         ports:
@@ -51,6 +51,8 @@ services:
             - 'sailredis:/data'
         networks:
             - sail
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
     # memcached:
     #     image: 'memcached:alpine'
     #     ports:
